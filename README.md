@@ -1,3 +1,4 @@
+[中文说明](README_zh.md) | English
 # PolyBenchMT-vec
 
 **PolyBenchMT-vec** is an enhanced version of [PolyBenchMT](https://github.com/Forgoys/PolyBenchMT).  

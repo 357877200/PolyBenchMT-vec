@@ -1,0 +1,7 @@
+kernel_for_analysis.c:27:5: remark: the cost-model indicates that interleaving is not beneficial [-Rpass-analysis=loop-vectorize]
+   27 |     for (int j = start_idx; j < end_idx; ++j) {
+      |     ^
+kernel_for_analysis.c:27:5: remark: vectorized loop (vectorization width: 2, interleaved count: 1) [-Rpass=loop-vectorize]
+kernel_for_analysis.c:52:9: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   52 |         for (int j = start_idx; j < end_idx; ++j) {
+      |         ^

@@ -1,0 +1,6 @@
+kernel_for_analysis.c:36:5: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   36 |     for (int i = start_idx; i <= end_idx; i++) {
+      |     ^
+kernel_for_analysis.c:65:5: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   65 |     for (int i = start_idx; i <= end_idx; i++) {
+      |     ^

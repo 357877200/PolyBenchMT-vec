@@ -1,0 +1,16 @@
+kernel_for_analysis.c:15:17: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   15 |             nrm += a[i * nj + k] * a[i * nj + k];
+      |                 ^
+kernel_for_analysis.c:14:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   14 |         for (int i = 0; i < ni; i++) {
+      |         ^
+kernel_for_analysis.c:32:5: remark: the cost-model indicates that interleaving is not beneficial [-Rpass-analysis=loop-vectorize]
+   32 |     for (int i = start_idx; i < end_idx; ++i) {
+      |     ^
+kernel_for_analysis.c:32:5: remark: vectorized loop (vectorization width: 2, interleaved count: 1) [-Rpass=loop-vectorize]
+kernel_for_analysis.c:57:9: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   57 |         for (int j = start_idx; j < end_idx; ++j) {
+      |         ^
+kernel_for_analysis.c:62:9: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   62 |         for (int j = start_idx; j < end_idx; ++j) {
+      |         ^

@@ -1,0 +1,66 @@
+#include <stdint.h>
+#include <math.h>
+#define __global__
+static inline int get_thread_id(void){ return 0; }
+static inline int get_group_size(void){ return 1; }
+static inline int min(int a, int b) { return a > b ? b : a; }
+static inline int max(int a, int b) { return a > b ? a : b; }
+__global__ void gramschmidt_kernel1(int ni, int nj, int k, double *a, double *r, double *q)
+{
+    int tid = get_thread_id();
+
+    if (tid == 0) {
+        double nrm = 0.0;
+        for (int i = 0; i < ni; i++) {
+            nrm += a[i * nj + k] * a[i * nj + k];
+        }
+        r[k * nj + k] = sqrt(nrm);
+    }
+}
+
+__global__ void gramschmidt_kernel2(int ni, int nj, int k, double *a, double *r, double *q)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = ni;
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = tid * elements_per_thread + (tid < remainder ? tid : remainder);
+    int end_idx = start_idx + elements_per_thread + (tid < remainder ? 1 : 0);
+
+    for (int i = start_idx; i < end_idx; ++i) {
+        q[i * nj + k] = a[i * nj + k] / r[k * nj + k];
+    }
+}
+
+__global__ void gramschmidt_kernel3(int ni, int nj, int k, double *a, double *r, double *q)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = nj - k - 1;
+    if (total_elements <= 0) {
+        return;
+    }
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = tid * elements_per_thread + (tid < remainder ? tid : remainder);
+    int end_idx = start_idx + elements_per_thread + (tid < remainder ? 1 : 0);
+    if (start_idx >= end_idx) {
+        return;
+    }
+    for (int j = start_idx; j < end_idx; ++j) {
+        r[k * nj + j] = 0.0;
+    }
+    for (int i = 0; i < ni; i++) {
+        for (int j = start_idx; j < end_idx; ++j) {
+            r[k * nj + j] += q[i * nj + k] * a[i * nj + j];
+        }
+    }
+    for (int i = 0; i < ni; i++) {
+        for (int j = start_idx; j < end_idx; ++j) {
+            a[i * nj + j] -= q[i * nj + k] * r[k * nj + j];
+        }
+    }
+}

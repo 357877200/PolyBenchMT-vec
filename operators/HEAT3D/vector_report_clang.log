@@ -1,0 +1,12 @@
+kernel_for_analysis.c:35:31: remark: loop not vectorized: cannot identify array bounds [-Rpass-analysis=loop-vectorize]
+   35 |             B[idx] = 0.125 * (A[ip] - 2.0*A[idx] + A[im])
+      |                               ^
+kernel_for_analysis.c:19:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   19 |     for (int idx = start; idx < end; idx++) {
+      |     ^
+kernel_for_analysis.c:69:31: remark: loop not vectorized: cannot identify array bounds [-Rpass-analysis=loop-vectorize]
+   69 |             A[idx] = 0.125 * (B[ip] - 2.0*B[idx] + B[im])
+      |                               ^
+kernel_for_analysis.c:53:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   53 |     for (int idx = start; idx < end; idx++) {
+      |     ^

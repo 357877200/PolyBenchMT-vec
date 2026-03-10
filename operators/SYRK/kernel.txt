@@ -1,0 +1,26 @@
+__global__ void syrk_kernel(int ni, int nj, double alpha, double beta, double *a, double *c)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = ni;
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx, end_idx;
+    if (tid < remainder) {
+        start_idx = tid * (elements_per_thread + 1);
+        end_idx = start_idx + (elements_per_thread + 1);
+    } else {
+        start_idx = remainder * (elements_per_thread + 1) + (tid - remainder) * elements_per_thread;
+        end_idx = start_idx + elements_per_thread;
+    }
+
+    for (int i = start_idx; i < end_idx; ++i) {
+        for (int j = 0; j < ni; ++j) {
+            c[i * ni + j] = c[i * ni + j] * beta;
+            for (int k = 0; k < nj; k++) {
+                c[i * ni + j] += alpha * a[i * nj + k] * a[j * nj + k];
+            }
+        }
+    }
+}

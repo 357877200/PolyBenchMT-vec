@@ -1,0 +1,25 @@
+kernel_for_analysis.c:28:9: remark: vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]
+   28 |         for (int j = j_start; j < j_end; ++j) {
+      |         ^
+kernel_for_analysis.c:32:5: remark: the cost-model indicates that interleaving is not beneficial [-Rpass-analysis=loop-vectorize]
+   32 |     for (int j = j_start; j < j_end; ++j) {
+      |     ^
+kernel_for_analysis.c:32:5: remark: vectorized loop (vectorization width: 4, interleaved count: 1) [-Rpass=loop-vectorize]
+kernel_for_analysis.c:58:13: remark: loop not vectorized: cannot identify array bounds [-Rpass-analysis=loop-vectorize]
+   58 |             data[i * m + j] -= mean[j]; // 原始计算逻辑
+      |             ^
+kernel_for_analysis.c:53:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   53 |     for (int idx = start_idx; idx < end_idx; ++idx) {
+      |     ^
+kernel_for_analysis.c:85:13: remark: loop not vectorized: cannot identify array bounds [-Rpass-analysis=loop-vectorize]
+   85 |             symmat[j1 * m + j2] = 0.0;
+      |             ^
+kernel_for_analysis.c:79:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   79 |     for (int idx = start_idx; idx < end_idx; ++idx) {
+      |     ^
+kernel_for_analysis.c:87:37: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   87 |                 symmat[j1 * m + j2] += data[i * m + j1] * data[i * m + j2];
+      |                                     ^
+kernel_for_analysis.c:86:13: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   86 |             for (int i = 0; i < n; ++i) {
+      |             ^

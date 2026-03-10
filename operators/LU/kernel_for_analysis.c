@@ -1,0 +1,56 @@
+#include <stdint.h>
+#include <math.h>
+#define __global__
+static inline int get_thread_id(void){ return 0; }
+static inline int get_group_size(void){ return 1; }
+static inline int min(int a, int b) { return a > b ? b : a; }
+static inline int max(int a, int b) { return a > b ? a : b; }
+__global__ void lu_kernel1(int n, int k, double *A)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = n - k - 1;
+    if (total_elements <= 0) {
+        return;
+    }
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = (tid < remainder)
+                        ? tid * (elements_per_thread + 1) + k + 1
+                        : remainder * (elements_per_thread + 1) + (tid - remainder) * elements_per_thread + k + 1;
+    int end_idx = start_idx + elements_per_thread + (tid < remainder ? 1 : 0);
+    if (start_idx >= end_idx) {
+        return;
+    }
+    double tmp = A[k * n + k];
+    for (int j = start_idx; j < end_idx; ++j) {
+        A[k * n + j] = A[k * n + j] / tmp;
+    }
+}
+
+__global__ void lu_kernel2(int n, int k, double *A)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = (n - k - 1);
+    if (total_elements <= 0) {
+        return;
+    }
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = (tid < remainder)
+                        ? tid * (elements_per_thread + 1) + k + 1
+                        : remainder * (elements_per_thread + 1) + (tid - remainder) * elements_per_thread + k + 1;
+    int end_idx = start_idx + elements_per_thread + (tid < remainder ? 1 : 0);
+    if (start_idx >= end_idx) {
+        return;
+    }
+
+    for (int i = k + 1; i < n; ++i) {
+        for (int j = start_idx; j < end_idx; ++j) {
+            A[i * n + j] = A[i * n + j] - A[i * n + k] * A[k * n + j];
+        }
+    }
+}

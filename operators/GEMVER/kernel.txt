@@ -1,0 +1,58 @@
+__global__ void gemver_kernel1(int n, double alpha, double beta, double *a, double *v1, double *v2,
+                               double *u1, double *u2)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = n;
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = tid * elements_per_thread + (tid < remainder ? tid : remainder);
+    int end_idx = start_idx + elements_per_thread + (tid < remainder);
+
+    for (int i = start_idx; i < end_idx; ++i) {
+        for (int j = 0; j < n; ++j) {
+            a[i * n + j] += u1[i] * v1[j] + u2[i] * v2[j];
+        }
+    }
+}
+
+__global__ void gemver_kernel2(int n, double alpha, double beta, double *a, double *x, double *y,
+                               double *z)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = n;
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = tid * elements_per_thread + (tid < remainder ? tid : remainder);
+    int end_idx = start_idx + elements_per_thread + (tid < remainder);
+
+    for (int j = 0; j < n; j++) {
+        for (int i = start_idx; i < end_idx; ++i) {
+            x[i] += beta * a[j * n + i] * y[j];
+        }
+    }
+    for (int i = start_idx; i < end_idx; ++i) {
+        x[i] += z[i];
+    }
+}
+
+__global__ void gemver_kernel3(int n, double alpha, double beta, double *a, double *x, double *w)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = n;
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = tid * elements_per_thread + (tid < remainder ? tid : remainder);
+    int end_idx = start_idx + elements_per_thread + (tid < remainder);
+
+    for (int i = start_idx; i < end_idx; ++i) {
+        for (int j = 0; j < n; j++) {
+            w[i] += alpha * a[i * n + j] * x[j];
+        }
+    }
+}

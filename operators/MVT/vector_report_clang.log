@@ -1,0 +1,9 @@
+kernel_for_analysis.c:22:19: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   22 |             x1[i] += a[i * n + j] * y_1[j];
+      |                   ^
+kernel_for_analysis.c:21:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   21 |         for (int j = 0; j < n; j++) {
+      |         ^
+kernel_for_analysis.c:40:9: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   40 |         for (int i = start_idx; i < end_idx; ++i) {
+      |         ^

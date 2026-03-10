@@ -1,0 +1,44 @@
+#include <stdint.h>
+#include <math.h>
+#define __global__
+static inline int get_thread_id(void){ return 0; }
+static inline int get_group_size(void){ return 1; }
+static inline int min(int a, int b) { return a > b ? b : a; }
+static inline int max(int a, int b) { return a > b ? a : b; }
+__global__ void mvt_kernel1(int n, double *a, double *x1, double *y_1)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = n;
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = (tid < remainder) ? tid * (elements_per_thread + 1)
+                                      : remainder * (elements_per_thread + 1) + (tid - remainder) * elements_per_thread;
+    int end_idx = start_idx + elements_per_thread + (tid < remainder ? 1 : 0);
+
+    for (int i = start_idx; i < end_idx; ++i) {
+        for (int j = 0; j < n; j++) {
+            x1[i] += a[i * n + j] * y_1[j];
+        }
+    }
+}
+
+__global__ void mvt_kernel2(int n, double *a, double *x2, double *y_2)
+{
+    int tid = get_thread_id();
+    int num_threads = get_group_size();
+    int total_elements = n;
+    int elements_per_thread = total_elements / num_threads;
+    int remainder = total_elements % num_threads;
+
+    int start_idx = (tid < remainder) ? tid * (elements_per_thread + 1)
+                                      : remainder * (elements_per_thread + 1) + (tid - remainder) * elements_per_thread;
+    int end_idx = start_idx + elements_per_thread + (tid < remainder ? 1 : 0);
+
+    for (int j = 0; j < n; j++) {
+        for (int i = start_idx; i < end_idx; ++i) {
+            x2[i] += a[j * n + i] * y_2[j];
+        }
+    }
+}

@@ -1,0 +1,6 @@
+kernel_for_analysis.c:37:45: remark: loop not vectorized: cannot identify array bounds [-Rpass-analysis=loop-vectorize]
+   37 |                + A[i * n + (j - 1)]       + A[i * n + j]           + A[i * n + (j + 1)]
+      |                                             ^
+kernel_for_analysis.c:30:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   30 |         for (int idx = start_idx; idx < end_idx; idx++) {
+      |         ^

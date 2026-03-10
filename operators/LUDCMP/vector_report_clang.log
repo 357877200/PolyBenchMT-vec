@@ -1,0 +1,24 @@
+kernel_for_analysis.c:18:15: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   18 |             w -= A[k * n + p] * A[p * n + j];
+      |               ^
+kernel_for_analysis.c:17:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   17 |         for (int p = 0; p < j; p++)
+      |         ^
+kernel_for_analysis.c:34:15: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   34 |             w -= A[k * n + p] * A[p * n + j];
+      |               ^
+kernel_for_analysis.c:33:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   33 |         for (int p = 0; p < k; p++)
+      |         ^
+kernel_for_analysis.c:47:11: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   47 |         w -= A[i * n + j] * y[j];
+      |           ^
+kernel_for_analysis.c:46:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   46 |     for (int j = 0; j < i; j++) {
+      |     ^
+kernel_for_analysis.c:60:11: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   60 |         w -= A[i * n + j] * x[j];
+      |           ^
+kernel_for_analysis.c:59:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   59 |     for (int j = i + 1; j < n; j++) {
+      |     ^

@@ -1,0 +1,67 @@
+__global__ void heat3d_kernel1(int n, double *A, double *B)
+{
+    int thread_id = get_thread_id();
+    int num_threads = get_group_size();
+
+    int total_elements = n * n * n;
+    int start = thread_id * (total_elements / num_threads);
+    int end   = (thread_id == num_threads - 1) ? total_elements
+                                               : (thread_id + 1) * (total_elements / num_threads);
+
+    for (int idx = start; idx < end; idx++) {
+        int i = idx / (n * n);
+        int j = (idx / n) % n;
+        int k = idx % n;
+
+        if (i >= 1 && i < n-1 &&
+            j >= 1 && j < n-1 &&
+            k >= 1 && k < n-1) {
+
+            int ip = (i+1)*n*n + j*n + k;
+            int im = (i-1)*n*n + j*n + k;
+            int jp = i*n*n + (j+1)*n + k;
+            int jm = i*n*n + (j-1)*n + k;
+            int kp = i*n*n + j*n + (k+1);
+            int km = i*n*n + j*n + (k-1);
+
+            B[idx] = 0.125 * (A[ip] - 2.0*A[idx] + A[im])
+                   + 0.125 * (A[jp] - 2.0*A[idx] + A[jm])
+                   + 0.125 * (A[kp] - 2.0*A[idx] + A[km])
+                   + A[idx];
+        }
+    }
+}
+
+__global__ void heat3d_kernel2(int n, double *A, double *B)
+{
+    int thread_id = get_thread_id();
+    int num_threads = get_group_size();
+
+    int total_elements = n * n * n;
+    int start = thread_id * (total_elements / num_threads);
+    int end   = (thread_id == num_threads - 1) ? total_elements
+                                               : (thread_id + 1) * (total_elements / num_threads);
+
+    for (int idx = start; idx < end; idx++) {
+        int i = idx / (n * n);
+        int j = (idx / n) % n;
+        int k = idx % n;
+
+        if (i >= 1 && i < n-1 &&
+            j >= 1 && j < n-1 &&
+            k >= 1 && k < n-1) {
+
+            int ip = (i+1)*n*n + j*n + k;
+            int im = (i-1)*n*n + j*n + k;
+            int jp = i*n*n + (j+1)*n + k;
+            int jm = i*n*n + (j-1)*n + k;
+            int kp = i*n*n + j*n + (k+1);
+            int km = i*n*n + j*n + (k-1);
+
+            A[idx] = 0.125 * (B[ip] - 2.0*B[idx] + B[im])
+                   + 0.125 * (B[jp] - 2.0*B[idx] + B[jm])
+                   + 0.125 * (B[kp] - 2.0*B[idx] + B[km])
+                   + B[idx];
+        }
+    }
+}

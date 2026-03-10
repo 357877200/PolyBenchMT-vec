@@ -1,0 +1,15 @@
+kernel_for_analysis.c:22:9: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   22 |         for (int j = 0; j < n; ++j) {
+      |         ^
+kernel_for_analysis.c:41:9: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   41 |         for (int i = start_idx; i < end_idx; ++i) {
+      |         ^
+kernel_for_analysis.c:45:5: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   45 |     for (int i = start_idx; i < end_idx; ++i) {
+      |     ^
+kernel_for_analysis.c:63:18: remark: loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before the loop or by providing the compiler option '-ffast-math'. [-Rpass-analysis=loop-vectorize]
+   63 |             w[i] += alpha * a[i * n + j] * x[j];
+      |                  ^
+kernel_for_analysis.c:62:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   62 |         for (int j = 0; j < n; j++) {
+      |         ^

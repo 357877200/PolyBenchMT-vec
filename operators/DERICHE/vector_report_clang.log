@@ -1,0 +1,22 @@
+kernel_for_analysis.c:23:9: remark: loop not vectorized: value that could not be identified as reduction is used outside the loop [-Rpass-analysis=loop-vectorize]
+   23 |         for (int j = 0; j < h; j++) {
+      |         ^
+kernel_for_analysis.c:23:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+kernel_for_analysis.c:47:9: remark: loop not vectorized: value that could not be identified as reduction is used outside the loop [-Rpass-analysis=loop-vectorize]
+   47 |         for (int j = h-1; j >= 0; j--) {
+      |         ^
+kernel_for_analysis.c:47:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+kernel_for_analysis.c:72:5: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   72 |     for (int idx = start_idx; idx < end_idx; ++idx) {
+      |     ^
+kernel_for_analysis.c:91:9: remark: loop not vectorized: value that could not be identified as reduction is used outside the loop [-Rpass-analysis=loop-vectorize]
+   91 |         for (int i = 0; i < w; i++) {
+      |         ^
+kernel_for_analysis.c:91:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+kernel_for_analysis.c:116:9: remark: loop not vectorized: value that could not be identified as reduction is used outside the loop [-Rpass-analysis=loop-vectorize]
+  116 |         for (int i = w-1; i >= 0; i--) {
+      |         ^
+kernel_for_analysis.c:116:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+kernel_for_analysis.c:142:5: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+  142 |     for (int idx = start_idx; idx < end_idx; ++idx) {
+      |     ^

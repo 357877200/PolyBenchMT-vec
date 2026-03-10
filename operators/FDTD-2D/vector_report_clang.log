@@ -1,0 +1,16 @@
+kernel_for_analysis.c:20:9: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   20 |         for (int j = 0; j < ny; j++) {
+      |         ^
+kernel_for_analysis.c:25:5: remark: vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]
+   25 |     for (int idx = start; idx < end; idx++) {
+      |     ^
+kernel_for_analysis.c:42:5: remark: the cost-model indicates that vectorization is not beneficial [-Rpass-missed=loop-vectorize]
+   42 |     for (int idx = start; idx < end; idx++) {
+      |     ^
+kernel_for_analysis.c:42:5: remark: the cost-model indicates that interleaving is not beneficial [-Rpass-missed=loop-vectorize]
+kernel_for_analysis.c:66:17: remark: loop not vectorized: cannot identify array bounds [-Rpass-analysis=loop-vectorize]
+   66 |                 hz[i * ny + j] - 0.7f * (ex[i * ny + (j + 1)] - ex[i * ny + j] + ey[(i + 1) * ny + j] - ey[i * ny + j]);
+      |                 ^
+kernel_for_analysis.c:61:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   61 |     for (int idx = start; idx < end; idx++) {
+      |     ^

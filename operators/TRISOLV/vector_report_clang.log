@@ -1,0 +1,7 @@
+kernel_for_analysis.c:17:18: remark: loop not vectorized: unsafe dependent memory operations in loop. Use #pragma loop distribute(enable) to allow loop distribution to attempt to isolate the offending operations into a separate loop
+Unknown data dependence. Memory location is the same as accessed at kernel_for_analysis.c:17:36 [-Rpass-analysis=loop-vectorize]
+   17 |             x[i] -= L[i * n + j] * x[j];
+      |                  ^
+kernel_for_analysis.c:16:9: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+   16 |         for (int j = 0; j < i; j++) {
+      |         ^

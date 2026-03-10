@@ -1,0 +1,13 @@
+__global__ void trisolv_kernel(int n, double *L, double *x, double *b)
+{
+    int tid = get_thread_id();
+    if (tid != 0) return;
+
+    for (int i = 0; i < n; i++) {
+        x[i] = b[i];
+        for (int j = 0; j < i; j++) {
+            x[i] -= L[i * n + j] * x[j];
+        }
+        x[i] = x[i] / L[i * n + i];
+    }
+}
